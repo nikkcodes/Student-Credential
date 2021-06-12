@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <!-- <link rel="stylesheet" href="C:\Users\Adarsh Mishra\Desktop\Prog1\style.css"> -->
+    <style>
+        body
+        {
+            height: 97vh;
+            background-color: rgb(36, 37, 43);
+            /* background-image: url("https://cdn.wallpapersafari.com/57/92/RxZMrW.jpg"); */
+            /* background-image:url("https://st3.depositphotos.com/1001599/18585/i/600/depositphotos_185855478-stock-photo-blockchain-technology-futuristic-hud-banner.jpg"); */
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            color: white;
+            font-size: large;
+            font-weight: 200rem;
+        }
+        .heading
+        {
+            display: flex;
+    align-items: center;
+    justify-content: center;
+    color: blanchedalmond;
+    font-size: 1.5rem;
+    font-weight: 200;
+        }
+        .tpic
+        {
+            display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+        }
+        .tpic button
+        {
+            padding: 1rem;
+            margin: 1rem;
+            background-color: transparent;
+            color:white;
+            border-radius: .4rem;
+            box-shadow: teal;
+            font-size: 1rem;
+            
+            
+        }
+        .tpic button:hover
+        {
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+        #pp1
+        {
+            border: 3px solid white;
+           position: absolute;
+           left: 42%;
+           top: 35%;
+           padding: 1.5rem;
+           display: none;
+           /* background-color: cornsilk; */
+
+        }
+        input
+        {
+            padding: 0.3rem;
+            background: transparent;
+            color: white;
+        }
+        #pp1 button
+        {
+            padding: 1rem;
+            margin: 1rem;
+            margin-left: 1.6rem;
+            background-color: #c0c0c0;
+            color:white;
+            border-radius: .4rem;
+            box-shadow: teal;
+        }
+        #pp1 button:hover
+        {
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+        #pp2
+        {
+            border: 3px solid white;
+           position: absolute;
+           left: 42%;
+           top: 35%;
+           padding: 1.5rem;
+           display: none;
+
+        }
+        #pp2 button
+        {
+            padding: 1rem;
+            margin: 1rem;
+            margin-left: 1.6rem;
+            background-color: #c0c0c0;
+            color:white;
+            border-radius: .4rem;
+            box-shadow: teal;
+        }
+        #pp2 button:hover
+        {
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+        #ans
+        {
+            border: 3px solid black;
+           position: absolute;
+           left: 42%;
+           top: 35%;
+           padding: 1.5rem;
+           display: none;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="heading"><h1>Student Credential</h1></div>
+     <div class = "tpic">
+        <button id = 'ins' onclick="fun1()">Insert Student</button>
+        <button id = 'ser'onclick="fun2()">Search Student</button>
+    </div>
+    <div>
+        <div id="pp1">
+                <p>Enroll: </p>
+                <input type = "text" id = "Enroll"><br>
+                <p>Name: </p>
+                <input type = "text" id = "Name"><br>
+                <p>College: </p>
+                <input type = "text" id = "College"><br>
+                <p>Branch: </p>
+                <input type = "text" id = "Branch"><br>
+                
+        
+                
+                <!-- <p id = 'balance'></p> -->
+                <button id = 'deposit'>Add Details</button><br>
+            
+       
+        </div>
+        <div id="pp2">
+                <p>Search Enroll</p>
+                <input type = "text" id = "Search"><br>
+            <button id = 'search' onclick="fun3()">Search</button><br>
+            
+            
+        </div>
+       <div id="ans">
+        <span id="holi"></span>
+        <span id="hol"></span>
+        <span id="ho"></span>
+        <span id="h"></span>
+       </div>
+        
+
+        <!-- <button id = 'withdraw'>getEmployee</button> -->
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://unpkg.com/@metamask/legacy-web3@latest/dist/metamask.web3.js"></script> -->
+    <script>
+        function fun1(){
+            document.getElementById("pp1").style.display = "block";
+            document.getElementById("pp2").style.display = "none";
+            document.getElementById("ans").style.display = "none";
+        }
+        function fun2(){
+            document.getElementById("pp1").style.display = "none";
+            document.getElementById("pp2").style.display = "block";
+            document.getElementById("ans").style.display = "none";
+        }
+        function fun3(){
+            document.getElementById("pp2").style.display = "none";
+            document.getElementById("ans").style.display = "block";
+            
+        }
+        var contract;
+        $(document).ready(function()
+        {
+            web3 = new Web3(web3.currentProvider)
+            var address = "0x43F253880A9c2566f3C07330e5649e7d58995AD1";
+            var abi =[
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "empid",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "department",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "designation",
+				"type": "string"
+			}
+		],
+		"name": "addEmployee",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "empid",
+				"type": "int256"
+			}
+		],
+		"name": "getEmployee",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+            contract = new web3.eth.Contract(abi,address);
+            $('#search').click(function()
+        {
+            var amt1 = 0;
+            amt1 = parseInt($('#Search').val()); 
+            contract.methods.getEmployee(amt1).call().then(function(nm)
+            {
+                // $('#balance').html(bal);
+                console.log(nm[0]);
+           document.getElementById(
+             "hol"
+           ).innerHTML = `<h3>Name =  ${nm[0]} </h3>`;
+           document.getElementById(
+             "ho"
+           ).innerHTML = `<h3>College =  ${nm[1]} </h3>`;
+           document.getElementById(
+             "h"
+           ).innerHTML = `<h3>Branch =  ${nm[2]} </h3>`;
+            //     console.log(bal);
+            // }).catch(function(err){
+            //     console.log(err);
+            });
+        });
+        //     web3.eth.getBalance('0x265387617d3DBA96645155A7f568EC088CE22c99',function(error,bal){
+        //     if(error){
+        //      console.log(error)
+        //             }
+        //     else{
+        //         
+        //     // console.log(bal);
+        //     $('#balance').html(bal);
+        //         }
+        //     });
+        // var NameContract = new web3.eth.Contract(abi,address);
+        // NameContract.methods.getBalance().call();
+        })
+        $('#deposit').click(function()
+        {
+            var amt = 0;
+            amt = parseInt($('#Enroll').val());
+            var nam = "";
+            nam = $('#Name').val();
+            var coll = "";
+            coll = $('#College').val();
+            var bra = "";
+            bra = $('#Branch').val();
+             web3.eth.getAccounts().then(function(accounts)
+            {
+                var acc = accounts[0];
+                // console.log(acc);
+                console.log(amt);
+                console.log(nam);
+                console.log(coll);
+                console.log(bra);
+                //window.ethereum.enable();
+                
+                return contract.methods.addEmployee(amt,nam,coll,bra).send({from: acc});
+            }).then(function(tx)
+            {
+                console.log(tx);
+            }).catch(function(tx)
+            {
+
+                console.log(tx);
+            })
+        })
+        // $('#withdraw').click(function()
+        // {
+        //     var amt = 0;
+        //     amt = parseInt($('#amount').val());
+        //     web3.eth.getAccounts().then(function(accounts)
+        //     {
+        //         var acc = accounts[0];
+        //         return contract.methods.withdraw(amt).send({from: acc});
+        //     }).then(function(tx)
+        //     {
+        //         console.log(tx);
+        //     }).catch(function(tx)
+        //     {
+
+        //         console.log(tx);
+        //     })
+        // })
+    </script>
+    
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+    
+</body>
+</html>

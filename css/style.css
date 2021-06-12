@@ -1,0 +1,12 @@
+.heading
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} 
+.tpic
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
